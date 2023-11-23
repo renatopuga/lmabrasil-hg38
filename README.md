@@ -123,7 +123,7 @@ Sobre a amostra **WP017**.
 - Mutation: JAK2-
 - karyotype: .
 - Total de variantes no VCF: 7144
-- Total filtradas: 22
+- Total de variantes pós filtro: 22
 
 ---
 
