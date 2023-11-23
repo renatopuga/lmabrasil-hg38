@@ -1,4 +1,4 @@
-![image](https://github.com/renatopuga/lmabrasil-hg38/assets/8321336/b435a06e-4357-4eb1-ad62-9ce3ea90c225)# lmabrasil-hg38
+# lmabrasil-hg38
 
 # Workflow
 
