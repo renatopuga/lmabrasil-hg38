@@ -23,6 +23,9 @@
 11. `bcftools +split-vep`: `-i 'FMT/DP>20 && FMT/AF>0.25'`
 12. Output: `vep.filter.tsv`
 
+
+# vep.sh - script
+
 ```bash
 SAMPLE="$1"
 CHAIN="hg19ToHg38.over.chain"
