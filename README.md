@@ -116,7 +116,17 @@ awk '{print("CHROM\tPOS\tREF\tALT\t"$0"FILTER\tTumorID\tGT\tDP\tAD\tAF\tNormalID
 
 ```
 
-# output - .vep.filter.tsv
+## output - .vep.filter.tsv
+
+Sobre a amostra **WP017**.
+
+- Mutation: JAK2-
+- karyotype: .
+- Total de variantes no VCF: 7144
+- Total filtradas: 22
+
+---
+
 
 | CHROM | POS       | REF                                                   | ALT        | Location                | SYMBOL   | Consequence             | Feature        | MANE_SELECT        | BIOTYPE        | HGVSc                        | HGVSp                          | EXON  | INTRON | VARIANT_CLASS       | SIFT                             | PolyPhen                 | gnomADg_AF  | MAX_AF     | IMPACT   | CLIN_SIG                       | SOMATIC     | Existing_variation                                           | FILTER                                                 | TumorID | GT      | DP   | AD         | AF                | NormalID | GT   | DP   | AD         | AF                |
 | ----- | --------- | ----------------------------------------------------- | ---------- | ----------------------- | -------- | ----------------------- | -------------- | ------------------ | -------------- | ---------------------------- | ------------------------------ | ----- | ------ | ------------------- | -------------------------------- | ------------------------ | ----------- | ---------- | -------- | ------------------------------ | ----------- | ------------------------------------------------------------ | ------------------------------------------------------ | ------- | ------- | ---- | ---------- | ----------------- | -------- | ---- | ---- | ---------- | ----------------- |
