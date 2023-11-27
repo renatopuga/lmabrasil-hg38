@@ -41,6 +41,7 @@ SAMPLE="$1"
 CHAIN="hg19ToHg38.over.chain"
 GENOME="hg38.fa"
 ASSEMBLY="GRCh38"
+GATK="~/opt/gatk-4.2.6.1/"
 export BCFTOOLS_PLUGINS=~/opt/bcftools/plugins
 
 
@@ -55,7 +56,7 @@ tabix -p vcf $SAMPLE.filtered.chr.vcf.gz
 
 
 # gatk LiftoverVcf
-~/opt/gatk-4.2.6.1/gatk LiftoverVcf \
+$GATK/gatk LiftoverVcf \
 -I $SAMPLE.filtered.chr.vcf.gz \
 -O liftOver_$SAMPLE\_$(basename $CHAIN .over.chain).vcf.gz \
 --CHAIN $CHAIN \
