@@ -1,5 +1,6 @@
 SAMPLE="$1"
 CHAIN="hg19ToHg38.over.chain"
+VEPCACHE="/Users/renatopuga/reference/vep"
 GENOME="hg38.fa"
 ASSEMBLY="GRCh38"
 export BCFTOOLS_PLUGINS=~/opt/bcftools/plugins
@@ -28,7 +29,7 @@ tabix -p vcf $SAMPLE.filtered.chr.vcf.gz
 mkdir -p vep_output
 chmod 777 vep_output
 
-time docker run -it --rm -v /Users/renatopuga/reference/vep:/cache -v $(pwd):/data ensemblorg/ensembl-vep:release_110.1 vep \
+time docker run -it --rm -v $VEPCACHE:/cache -v $(pwd):/data ensemblorg/ensembl-vep:release_110.1 vep \
 -i /data/liftOver_$SAMPLE\_$(basename $CHAIN .over.chain).vcf.gz  \
 -o /data/vep_output/liftOver_$SAMPLE\_$(basename $CHAIN .over.chain).vep.vcf \
 --assembly $ASSEMBLY  \
