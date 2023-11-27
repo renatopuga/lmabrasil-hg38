@@ -29,6 +29,13 @@ Versão Reduzida no Google Colab:
 
 # vep.sh - script
 
+
+* Rodar script
+```bash
+sh vep.sh WP017
+```
+
+* Código
 ```bash
 SAMPLE="$1"
 CHAIN="hg19ToHg38.over.chain"
