@@ -47,7 +47,7 @@ time docker run -it --rm -v /Users/renatopuga/reference/vep:/cache -v $(pwd):/da
 --symbol \
 --biotype \
 --hgvs \
---mane \
+--mane_select \
 --numbers \
 --af_gnomadg \
 --max_af \
