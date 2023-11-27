@@ -1,5 +1,8 @@
 # lmabrasil-hg38
 
+Versão Reduzida no Google Colab: 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1r4LDUiQqirUFQT2nIrhVW_AHLaBhmS7y?usp=sharing)
+
 # Workflow
 
 1. Entrar com o código WP na execução: `sh vep.sh WP017`
