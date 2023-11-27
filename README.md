@@ -79,7 +79,7 @@ time docker run -it --rm -v /Users/renatopuga/reference/vep:/cache -v $(pwd):/da
 --symbol \
 --biotype \
 --hgvs \
---mane \
+--mane_select \
 --numbers \
 --af_gnomadg \
 --max_af \
@@ -107,10 +107,6 @@ docker run --rm -it -v `pwd`:`pwd` -w `pwd` ensemblorg/ensembl-vep filter_vep \
 cut -f2  | \
 tr '\n\r' '\t' | \
 awk '{print("CHROM\tPOS\tREF\tALT\t"$0"FILTER\tTumorID\tGT\tDP\tAD\tAF\tNormalID\tGT\tDP\tAD\tAF")}' > vep_output/liftOver_$SAMPLE\_$(basename $CHAIN .over.chain).vep.filter.tsv
-
-#~/opt/bcftools/bcftools +split-vep -f '%CHROM\t%POS\t%REF\t%ALT\t%CSQ\t%FILTER\t[%GT\t%DP\t%AD\t%AF\t]\n' \
-#-d -A tab vep_output/liftOver_$SAMPLE\_$(basename $CHAIN .over.chain).vep.filter.vcf \
-#-p x >> vep_output/liftOver_$SAMPLE\_$(basename $CHAIN .over.chain).vep.tsv
 
 ~/opt/bcftools/bcftools +split-vep \
 -f '%CHROM\t%POS\t%REF\t%ALT\t%CSQ\t%FILTER\t[%SAMPLE\t%GT\t%DP\t%AD\t%AF\t]\n' \
