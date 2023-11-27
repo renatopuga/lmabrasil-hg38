@@ -1,7 +1,7 @@
 # lmabrasil-hg38
 
 Versão Reduzida no Google Colab: 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1r4LDUiQqirUFQT2nIrhVW_AHLaBhmS7y?usp=sharing)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1eYSW4WI1RwxG9lIS8ohhWVWQqxJYXihD?usp=sharing)
 
 # Workflow
 
