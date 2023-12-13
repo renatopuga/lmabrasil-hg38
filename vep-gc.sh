@@ -39,5 +39,5 @@ awk '{print("CHROM\tPOS\tREF\tALT\t"$0"FILTER\tTumorID\tGT\tDP\tAD\tAF\tNormalID
 # 2. adicionar as variantes
 bcftools +split-vep \
 -f '%CHROM\t%POS\t%REF\t%ALT\t%CSQ\t%FILTER\t[%SAMPLE\t%GT\t%DP\t%AD\t%AF\t]\n' \
--i 'FMT/DP>20 && FMT/AF>0.1' -d -A tab vep_output/liftOver_$SAMPLE\_$(basename $CHAIN .over.chain).vep.filter.vcf \
+-i 'FMT/DP>=20 && FMT/AF>=0.1' -d -A tab vep_output/liftOver_$SAMPLE\_$(basename $CHAIN .over.chain).vep.filter.vcf \
 -p x  >> vep_output/liftOver_$SAMPLE\_$(basename $CHAIN .over.chain).vep.filter.tsv
