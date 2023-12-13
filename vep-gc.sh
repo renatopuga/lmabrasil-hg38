@@ -4,6 +4,7 @@ cd lmabrasil-hg38/
 ## variaveis de ambiente
 SAMPLE="$1"
 CHAIN="hg19ToHg38.over.chain"
+HPO="$2"
 
 ## vep
 
@@ -23,7 +24,7 @@ udocker --allow-root run --rm  -v `pwd`:`pwd` -w `pwd` ensemblorg/ensembl-vep fi
 (FILTER = PASS or not FILTER matches strand_bias,weak_evidence) and \
 (SOMATIC matches 1 or (not SOMATIC and CLIN_SIG matches pathogenic)) and (not CLIN_SIG matches benign) and \
 (not IMPACT matches LOW) and \
-(Symbol in hpo/Myelofibrosis.txt)"  \
+(Symbol in hpo/$HPO)"  \
 --force_overwrite \
 -o vep_output/liftOver_$SAMPLE\_$(basename $CHAIN .over.chain).vep.filter.vcf
 
