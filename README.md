@@ -5,7 +5,7 @@ Versão Reduzida no Google Colab:
 
 # Workflow
 
-# Fitrar variantes somáticas - Workflow
+# Filtrar variantes somáticas - Workflow
 ---
 
 1. Clonar repositório `renatopuga/lmabrasil-hg38`
