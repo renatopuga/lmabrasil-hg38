@@ -27,7 +27,7 @@ Versão Reduzida no Google Colab:
 
 ### The Human Phenotype Ontology (HPO)
 
-1. Myelofibrosis with myeloid metaplasia, somatic: https://hpo.jax.org/app/browse/term/HP:0011974
+1. Myelofibrosis: https://hpo.jax.org/app/browse/term/HP:0011974
 2. Abnormal mast cell morphology: https://hpo.jax.org/app/browse/term/HP:0100494
 
 
