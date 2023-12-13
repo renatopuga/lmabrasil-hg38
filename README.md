@@ -10,8 +10,8 @@ Versão Reduzida no Google Colab:
 
 1. Clonar repositório `renatopuga/lmabrasil-hg38`
 2. Instalar `bcftools +split-vep`
-3. Instlar `udocker`
-4. Filtra o VCF com `filter_vep`:
+3. Instalar `udocker`
+4. Filtrar o VCF com `filter_vep`:
 
   ```filter "(MAX_AF <= 0.01 or not MAX_AF) and
   (FILTER = PASS or not FILTER matches strand_bias,weak_evidence) and
