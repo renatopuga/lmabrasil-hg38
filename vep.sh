@@ -1,4 +1,5 @@
 SAMPLE="$1"
+HPO="$2"
 CHAIN="hg19ToHg38.over.chain"
 VEPCACHE="/Users/renatopuga/reference/vep"
 GENOME="hg38.fa"
@@ -66,9 +67,24 @@ docker run --rm -it -v `pwd`:`pwd` -w `pwd` ensemblorg/ensembl-vep filter_vep \
 -i vep_output/liftOver_$SAMPLE\_$(basename $CHAIN .over.chain).vep.vcf \
 -filter "(MAX_AF <= 0.01 or not MAX_AF) and \
 (FILTER = PASS or not FILTER matches strand_bias,weak_evidence) and \
-(SOMATIC matches 1 or (not SOMATIC and CLIN_SIG matches pathogenic)) and (not CLIN_SIG matches benign) and (not IMPACT matches LOW)"  \
+(SOMATIC matches 1 or (not SOMATIC and CLIN_SIG matches pathogenic)) and (not CLIN_SIG matches benign) and \
+(not IMPACT matches LOW) and \
+(Symbol in hpo/$HPO)"  \
 --force_overwrite \
 -o vep_output/liftOver_$SAMPLE\_$(basename $CHAIN .over.chain).vep.filter.vcf
+
+## bcftools +split-vep
+
+# 1. criar o cabeçalho
+bcftools +split-vep -l vep_output/liftOver_$SAMPLE\_$(basename $CHAIN .over.chain).vep.filter.vcf | \
+cut -f2  | \
+tr '\n\r' '\t' | \
+awk '{print("CHROM\tPOS\tREF\tALT\t"$0"FILTER\tTumorID\tGT\tDP\tAD\tAF\tNormalID\tNGT\tNDP\tNAD\tNAF")}' > vep_output/liftOver_$SAMPLE\_$(basename $CHAIN .over.chain).vep.filter.tsv
+
+# 2. adicionar as variantes
+bcftools +split-vep \
+-f '%CHROM\t%POS\t%REF\t%ALT\t%CSQ\t%FILTER\t[%SAMPLE\t%GT\t%DP\t%AD\t%AF\t]\n' \
+-i 'FMT/DP>20 && FMT/AF>0.1' -d -A tab vep_output/liftOver_$SAMPLE\_$(basename $CHAIN .o
 
 ## bcftools +split-vep
 
