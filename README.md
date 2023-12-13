@@ -13,7 +13,8 @@ Versão Reduzida no Google Colab:
 3. Instalar `udocker`
 4. Filtrar o VCF com `filter_vep`:
 
-  ```filter "(MAX_AF <= 0.01 or not MAX_AF) and
+  ```
+  -filter "(MAX_AF <= 0.01 or not MAX_AF) and
   (FILTER = PASS or not FILTER matches strand_bias,weak_evidence) and
   (SOMATIC matches 1 or (not SOMATIC and CLIN_SIG matches pathogenic)) and
   (not CLIN_SIG matches benign) and \
