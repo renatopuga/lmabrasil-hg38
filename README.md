@@ -31,6 +31,9 @@ Versão Reduzida no Google Colab:
 1. Myelofibrosis: https://hpo.jax.org/app/browse/term/HP:0011974
 2. Abnormal mast cell morphology: https://hpo.jax.org/app/browse/term/HP:0100494
 
+### Clonal Hematopoiesis drivers
+1. Clonal Hematopoiesis drivers (65 genes): https://www.intogen.org/ch
+
 
 # vep.sh - script
 
