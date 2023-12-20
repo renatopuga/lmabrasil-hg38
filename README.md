@@ -70,6 +70,10 @@ Sobre a amostra **WP017**.
 
 - https://www.cancergenomeinterpreter.org/analysis
 
+![image](https://github.com/renatopuga/lmabrasil-hg38/assets/8321336/26881170-c4b9-47ac-bc26-9f817709c6f5)
+
+---
+
 | CHROMOSOME | POSITION | REF                                                  | ALT | chr   | pos      | ref                                                   | alt | ALT_TYPE | STRAND | CGI-Sample ID | CGI-Gene | CGI-Protein Change         | CGI-Oncogenic Summary               | CGI-Oncogenic Prediction | CGI-External oncogenic annotation | CGI-Mutation                                                                   | CGI-Consequence    | CGI-Transcript  | CGI-STRAND | CGI-Type | CGI-HGVS                                                           | CGI-HGVSc                         | CGI-HGVSp                            |
 |------------|----------|------------------------------------------------------|-----|-------|----------|-------------------------------------------------------|-----|----------|--------|---------------|----------|----------------------------|-------------------------------------|--------------------------|-----------------------------------|--------------------------------------------------------------------------------|--------------------|-----------------|------------|----------|--------------------------------------------------------------------|-----------------------------------|--------------------------------------|
 | 17         | 7669662  | T                                                    | G   | chr17 | 7669662  | T                                                     | G   | snp      | +      | input_gtf     | TP53     | T377P                      | non-oncogenic                       | passenger (oncodriveMUT) |                                   | chr17:7669662 T>G                                                              | missense_variant   | ENST00000269305 | +          | SNV      | ENST00000269305:c.1129A>C;p.(Thr377Pro);p.(T377P)                  | ENST00000269305.9:c.1129A>C       | ENSP00000269305.4:p.Thr377Pro        |
