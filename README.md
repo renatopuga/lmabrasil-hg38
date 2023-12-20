@@ -76,10 +76,10 @@ Sobre a amostra **WP017**.
 
 **CGI - Resultado Resumido**
 
-| chr 	| pos 	| ref 	| alt 	| ALT_TYPE 	| STRAND 	| CGI-Gene 	| CGI-Oncogenic Prediction 	|
-|---	|---	|---	|---	|---	|---	|---	|---	|
-| chr17 	| 7669662 	| T 	| G 	| snp 	| + 	| TP53 	| passenger (oncodriveMUT) 	|
-| chr19 	| 12943750 	| AGCAGAGGCTTAAGGAGGAGGAAGAAGACAAGAAACGCAAAGAGGAGGAGGAG 	| A 	| indel 	| + 	| CALR 	| driver (oncodriveMUT) 	|**
+| chr 	| pos 	| alt 	| STRAND 	| CGI-Gene 	| ALT_TYPE 	| CGI-Oncogenic Prediction 	|
+|---	|---	|---	|---	|---	|---	|---	|
+| chr17 	| 7669662 	| G 	| + 	| TP53 	| snp 	| passenger (oncodriveMUT) 	|
+| chr19 	| 12943750 	| A 	| + 	| CALR 	| indel 	| driver (oncodriveMUT) 	|
 
 ---
 
