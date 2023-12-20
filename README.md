@@ -74,6 +74,17 @@ Sobre a amostra **WP017**.
 
 ---
 
+**CGI - Resultado Resumido**
+
+| chr 	| pos 	| ref 	| alt 	| ALT_TYPE 	| STRAND 	| CGI-Gene 	| CGI-Oncogenic Prediction 	|
+|---	|---	|---	|---	|---	|---	|---	|---	|
+| chr17 	| 7669662 	| T 	| G 	| snp 	| + 	| TP53 	| passenger (oncodriveMUT) 	|
+| chr19 	| 12943750 	| AGCAGAGGCTTAAGGAGGAGGAAGAAGACAAGAAACGCAAAGAGGAGGAGGAG 	| A 	| indel 	| + 	| CALR 	| driver (oncodriveMUT) 	|**
+
+---
+
+**RCGI - esultado Completo**
+
 | CHROMOSOME 	| POSITION 	| REF 	| ALT 	| chr 	| pos 	| ref 	| alt 	| ALT_TYPE 	| STRAND 	| CGI-Sample ID 	| CGI-Gene 	| CGI-Protein Change 	| CGI-Oncogenic Summary 	| CGI-Oncogenic Prediction 	| CGI-External oncogenic annotation 	| CGI-Mutation 	| CGI-Consequence 	| CGI-Transcript 	| CGI-STRAND 	| CGI-Type 	| CGI-HGVS 	| CGI-HGVSc 	| CGI-HGVSp 	|
 |---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|
 | 17 	| 7669662 	| T 	| G 	| chr17 	| 7669662 	| T 	| G 	| snp 	| + 	| input_gtf 	| TP53 	| T377P 	| non-oncogenic 	| passenger (oncodriveMUT) 	|  	| chr17:7669662 T>G 	| missense_variant 	| ENST00000269305 	| + 	| SNV 	| ENST00000269305:c.1129A>C;p.(Thr377Pro);p.(T377P) 	| ENST00000269305.9:c.1129A>C 	| ENSP00000269305.4:p.Thr377Pro 	|
