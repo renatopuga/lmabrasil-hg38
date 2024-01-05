@@ -83,9 +83,125 @@ Sobre a amostra **WP017**.
 
 ---
 
-**RCGI - resultado Completo**
+**CGI - resultado Completo**
 
 | CHROMOSOME 	| POSITION 	| REF 	| ALT 	| chr 	| pos 	| ref 	| alt 	| ALT_TYPE 	| STRAND 	| CGI-Sample ID 	| CGI-Gene 	| CGI-Protein Change 	| CGI-Oncogenic Summary 	| CGI-Oncogenic Prediction 	| CGI-External oncogenic annotation 	| CGI-Mutation 	| CGI-Consequence 	| CGI-Transcript 	| CGI-STRAND 	| CGI-Type 	| CGI-HGVS 	| CGI-HGVSc 	| CGI-HGVSp 	|
 |---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|---	|
 | 17 	| 7669662 	| T 	| G 	| chr17 	| 7669662 	| T 	| G 	| snp 	| + 	| input_gtf 	| TP53 	| T377P 	| non-oncogenic 	| passenger (oncodriveMUT) 	|  	| chr17:7669662 T>G 	| missense_variant 	| ENST00000269305 	| + 	| SNV 	| ENST00000269305:c.1129A>C;p.(Thr377Pro);p.(T377P) 	| ENST00000269305.9:c.1129A>C 	| ENSP00000269305.4:p.Thr377Pro 	|
 | 19 	| 12943751 	| GCAGAGGCTTAAGGAGGAGGAAGAAGACAAGAAACGCAAAGAGGAGGAGGAG 	| - 	| chr19 	| 12943750 	| AGCAGAGGCTTAAGGAGGAGGAAGAAGACAAGAAACGCAAAGAGGAGGAGGAG 	| A 	| indel 	| + 	| input_gtf 	| CALR 	| EQRLKEEEEDKKRKEEEE364-381X 	| oncogenic (predicted and annotated) 	| driver (oncodriveMUT) 	| clinvar:97006 	| chr19:12943751-12943751 GCAGAGGCTTAAGGAGGAGGAAGAAGACAAGAAACGCAAAGAGGAGGAGGAG>- 	| frameshift_variant 	| ENST00000316448 	| + 	| DEL 	| ENST00000316448:c.1099_1150del;p.(Leu367ThrfsTer46);p.(L367Tfs*46) 	| ENST00000316448.10:c.1099_1150del 	| ENSP00000320866.4:p.Leu367ThrfsTer46 	|
+
+
+## Usando CGI via API Rest no Google Colab
+
+## Cancer Genome Interpreter (CGI) - API
+
+Utilizando o resultado da amostras WP048, vamos utilizar a análise do CGI através da API Rest que eles disponibilizam. Para mais informações sobre a API Rest do CGI acesse: https://www.cancergenomeinterpreter.org/rest_api
+
+Requisitos para acessar a API:
+
+1. Conta de usuário no CGI
+2. Gerar um token para utilizar no código que chama a API (exemplo abaixo)
+
+## Gerando Token no seu usuário CGI
+
+
+
+Gerando o arquivo `df_WP048-cgi.txt` com as colunas: **CHR, POS, REF e ALT**. Esse arquivo será utilizando junto com a API.
+
+> **Nota:** Os nomes das colunas, para esse formato que estamos utilizando de input, deve ser exatamente CHR, POS, REF e ALT.
+
+
+
+
+```bash
+%%bash
+cut -f1-4 /content/lmabrasil-hg38/vep_output/liftOver_WP048_hg19ToHg38.vep.filter.tsv | sed -e "s/CHROM/CHR/g"  > df_WP048-cgi.txt
+head df_WP048-cgi.txt
+```
+
+## Enviando um Job - job_id: be69dc21d218f22e5f7e
+
+> **IMPORTANTE:** No código, onde estiver escrito: **SEU_TOKEN**, é para colar o seu código Token. Linha de código: 
+
+`headers = {'Authorization': 'renatopuga@gmail.com SEU_TOKEN'}`
+
+> **IMPORTANTE 2:** O jobid `cb99f036442f7b74f195` é válido, eu gerei usando o meu Token.
+
+```python
+import requests
+headers = {'Authorization': 'renatopuga@gmail.com SEU_TOKEN'}
+payload = {'cancer_type': 'HEMATO', 'title': 'Somatic MF', 'reference': 'hg38'}
+r = requests.post('https://www.cancergenomeinterpreter.org/api/v1',
+                headers=headers,
+                files={
+                        'mutations': open('/content/df_WP048-cgi.txt', 'rb')
+                        },
+                data=payload)
+r.json()
+```
+
+## Visualizando os identificadores
+
+```python
+import requests
+job_id ="be69dc21d218f22e5f7e"
+
+headers = {'Authorization': 'renatopuga@gmail.com SEU_TOKEN'}
+r = requests.get('https://www.cancergenomeinterpreter.org/api/v1/%s' % job_id, headers=headers)
+r.json()
+```
+
+## Acessando informações do Job
+
+```python
+import requests
+job_id ="be69dc21d218f22e5f7e"
+
+headers = {'Authorization': 'renatopuga@gmail.com SEU_TOKEN'}
+payload={'action':'logs'}
+r = requests.get('https://www.cancergenomeinterpreter.org/api/v1/%s' % job_id, headers=headers, params=payload)
+r.json()
+```  
+
+## Download dos Resultados (file.zip)
+
+```python
+import requests
+job_id ="be69dc21d218f22e5f7e"
+
+headers = {'Authorization': 'renatopuga@gmail.com SEU_TOKEN'}
+payload={'action':'download'}
+r = requests.get('https://www.cancergenomeinterpreter.org/api/v1/%s' % job_id, headers=headers, params=payload)
+with open('file.zip', 'wb') as fd:
+    fd.write(r._content)
+```
+
+### Descompactando o arquivo `file.zip`
+
+```bash
+!unzip file.zip
+```
+
+## Resultado: `alterations.tsv`
+
+```python
+pd.read_csv('/content/alterations.tsv',sep='\t',index_col=False, engine= 'python')
+```
+
+
+## Resultado: `biomarkers.tsv`
+
+```python
+pd.read_csv('/content/biomarkers.tsv',sep='\t',index_col=False, engine= 'python')
+```
+
+## Deletando o Job do CGI
+
+```python
+import requests
+#job_id ="be69dc21d218f22e5f7e"
+
+headers = {'Authorization': 'renatopuga@gmail.com SEU_TOKEN'}
+r = requests.delete('https://www.cancergenomeinterpreter.org/api/v1/%s' % job_id, headers=headers)
+r.json() 
+```
