@@ -93,7 +93,7 @@ Sobre a amostra **WP017**.
 
 ## Usando CGI via API Rest no Google Colab
 
-## Cancer Genome Interpreter (CGI) - API
+**Cancer Genome Interpreter (CGI) - API**
 
 Utilizando o resultado da amostras WP048, vamos utilizar a análise do CGI através da API Rest que eles disponibilizam. Para mais informações sobre a API Rest do CGI acesse: https://www.cancergenomeinterpreter.org/rest_api
 
@@ -139,6 +139,9 @@ r = requests.post('https://www.cancergenomeinterpreter.org/api/v1',
                 data=payload)
 r.json()
 ```
+```
+be69dc21d218f22e5f7e
+```
 
 ## Visualizando os identificadores
 
@@ -149,6 +152,16 @@ job_id ="be69dc21d218f22e5f7e"
 headers = {'Authorization': 'renatopuga@gmail.com SEU_TOKEN'}
 r = requests.get('https://www.cancergenomeinterpreter.org/api/v1/%s' % job_id, headers=headers)
 r.json()
+```
+```
+{'status': 'Done',
+ 'metadata': {'id': 'be69dc21d218f22e5f7e',
+  'user': 'renatopuga@gmail.com',
+  'title': 'Somatic MF',
+  'cancertype': 'HEMATO',
+  'reference': 'hg38',
+  'dataset': 'input.tsv',
+  'date': '2024-01-05 15:01:08'}}
 ```
 
 ## Acessando informações do Job
@@ -161,7 +174,23 @@ headers = {'Authorization': 'renatopuga@gmail.com SEU_TOKEN'}
 payload={'action':'logs'}
 r = requests.get('https://www.cancergenomeinterpreter.org/api/v1/%s' % job_id, headers=headers, params=payload)
 r.json()
-```  
+```
+```
+{'status': 'Done',
+ 'logs': ['# cgi analyze input.tsv -c HEMATO -g hg38',
+  '2024-01-05 16:01:13,170 INFO     Parsing input01.tsv\n',
+  '2024-01-05 16:01:17,258 INFO     Running VEP\n',
+  '2024-01-05 16:01:18,446 INFO     Check cancer genes and consensus roles\n',
+  '2024-01-05 16:01:18,535 INFO     Annotate BoostDM mutations\n',
+  '2024-01-05 16:01:18,572 INFO     Annotate OncodriveMUT mutations\n',
+  '2024-01-05 16:01:21,180 INFO     Annotate validated oncogenic mutations\n',
+  '2024-01-05 16:01:21,375 INFO     Check oncogenic classification\n',
+  '2024-01-05 16:01:21,442 INFO     Matching biomarkers\n',
+  '2024-01-05 16:01:21,535 INFO     Prescription finished\n',
+  '2024-01-05 16:01:21,548 INFO     Aggregate metrics\n',
+  '2024-01-05 16:01:24,808 INFO     Compress output files\n',
+  '2024-01-05 16:01:24,846 INFO     Analysis done\n']}
+```
 
 ## Download dos Resultados (file.zip)
 
@@ -181,12 +210,23 @@ with open('file.zip', 'wb') as fd:
 ```bash
 !unzip file.zip
 ```
+```
+Archive:  file.zip
+  inflating: alterations.tsv         
+  inflating: biomarkers.tsv          
+  inflating: input01.tsv             
+  inflating: summary.txt
+```
 
 ## Resultado: `alterations.tsv`
 
 ```python
 pd.read_csv('/content/alterations.tsv',sep='\t',index_col=False, engine= 'python')
 ```
+| Input ID 	| CHROMOSOME 	| POSITION 	| REF 	| ALT 	| CHR 	| POS 	| ALT_TYPE 	| STRAND 	| CGI-Sample ID 	| CGI-Gene 	| CGI-Protein Change 	| CGI-Oncogenic Summary 	| CGI-Oncogenic Prediction 	| CGI-External oncogenic annotation 	| CGI-Mutation 	| CGI-Consequence 	| CGI-Transcript 	| CGI-STRAND 	| CGI-Type 	| CGI-HGVS 	| CGI-HGVSc 	| CGI-HGVSp 	|  	|
+|---:	|---:	|---:	|---:	|---:	|---:	|---:	|---:	|---:	|---:	|---:	|---:	|---:	|---:	|---:	|---:	|---:	|---:	|---:	|---:	|---:	|---:	|---:	|---	|
+| 0 	| input01_1 	| 1 	| 114716123 	| C 	| T 	| chr1 	| 114716123 	| snp 	| + 	| input01 	| NRAS 	| G13D 	| oncogenic (predicted and annotated) 	| driver (boostDM: non-tissue-specific model) 	| cgi,oncokb 	| chr1:114716123 C>T 	| missense_variant 	| ENST00000369535 	| + 	| SNV 	| ENST00000369535:c.38G>A;p.(Gly13Asp);p.(G13D) 	| ENST00000369535.5:c.38G>A 	| ENSP00000358548.4:p.Gly13Asp 	|
+| 1 	| input01_2 	| 9 	| 5073770 	| G 	| T 	| chr9 	| 5073770 	| snp 	| + 	| input01 	| JAK2 	| V617F 	| oncogenic (annotated) 	| passenger (oncodriveMUT) 	| cgi,oncokb 	| chr9:5073770 G>T 	| missense_variant 	| ENST00000381652 	| + 	| SNV 	| ENST00000381652:c.1849G>T;p.(Val617Phe);p.(V617F) 	| ENST00000381652.4:c.1849G>T 	| ENSP00000371067.4:p.Val617Phe 	|
 
 
 ## Resultado: `biomarkers.tsv`
@@ -194,6 +234,60 @@ pd.read_csv('/content/alterations.tsv',sep='\t',index_col=False, engine= 'python
 ```python
 pd.read_csv('/content/biomarkers.tsv',sep='\t',index_col=False, engine= 'python')
 ```
+
+| Sample ID 	| Alterations 	| Biomarker 	| Drugs 	| Diseases 	| Response 	| Evidence 	| Match 	| Source 	| BioM 	| Resist. 	| Tumor type 	|  	|
+|---:	|---:	|---:	|---:	|---:	|---:	|---:	|---:	|---:	|---:	|---:	|---:	|---	|
+| 0 	| input01 	| KRAS wildtype 	| KRAS wildtype 	| Panitumumab (EGFR mAb inhibitor) 	| Colorectal adenocarcinoma 	| Responsive 	| A 	| NO 	| PMID: 31268481 	| complete 	| 621.0 	| COREAD 	|
+| 1 	| input01 	| KRAS wildtype 	| KRAS wildtype 	| Cetuximab (EGFR mAb inhibitor) 	| Colorectal adenocarcinoma 	| Responsive 	| A 	| NO 	| PMID: 19339720 	| complete 	| 246.0 	| COREAD 	|
+| 2 	| input01 	| JAK2 (V617F) 	| JAK2 oncogenic mutation 	| PD1 inhibitors 	| Cutaneous melanoma 	| Resistant 	| C 	| NO 	| PMID:27433843 	| complete 	| NaN 	| CM 	|
+| 3 	| input01 	| NRAS (G13D) 	| NRAS (12,13,59,61,117,146) 	| Cetuximab (EGFR mAb inhibitor) 	| Colorectal adenocarcinoma 	| Resistant 	| A 	| NO 	| PMID:24024839;PMID:20619739;PMID:23325582 	| complete 	| NaN 	| COREAD 	|
+| 4 	| input01 	| NRAS (G13D) 	| NRAS (Q61) 	| BRAF inhibitors 	| Cutaneous melanoma 	| Resistant 	| C 	| NO 	| PMID:23569304;PMID:24265153 	| only alteration type 	| NaN 	| CM 	|
+| 5 	| input01 	| JAK2 (V617F) 	| JAK2 (V617F) 	| JAK inhibitor (alone or in combination)s 	| Acute myeloid leukemia 	| Responsive 	| D 	| YES 	| PMID:22829971 	| complete 	| NaN 	| AML 	|
+| 6 	| input01 	| JAK2 (V617F) 	| JAK2 amplification 	| JAK inhibitors 	| Breast adenocarcinoma 	| Responsive 	| D 	| NO 	| PMID:27075627 	| only gene 	| NaN 	| BRCA 	|
+| 7 	| input01 	| NRAS (G13D) 	| NRAS (12,13,59,61,117,146) 	| Panitumumab (EGFR mAb inhibitor) 	| Colorectal adenocarcinoma 	| Resistant 	| A 	| NO 	| FDA guidelines 	| complete 	| NaN 	| COREAD 	|
+| 8 	| input01 	| JAK2 (V617F) 	| JAK2-BRAF fusion 	| Ruxolitinib (JAK inhibitor) 	| Acute lymphoblastic leukemia 	| Responsive 	| D 	| YES 	| PMID:22875628;PMID:22899477 	| only gene 	| NaN 	| ALL 	|
+| 9 	| input01 	| JAK2 (V617F) 	| JAK2 (V617F) 	| Ruxolitinib (JAK inhibitor) 	| Acute myeloid leukemia 	| Responsive 	| C 	| YES 	| PMID:22422826 	| complete 	| NaN 	| AML 	|
+| 10 	| input01 	| JAK2 (V617F) 	| JAK2 (V617F) 	| Ruxolitinib (JAK inhibitor) 	| Myelofibrosis 	| Responsive 	| A 	| YES 	| FDA 	| complete 	| NaN 	| MY 	|
+| 11 	| input01 	| KIT wildtype 	| KIT wildtype 	| Dasatinib (BCR-ABL inhibitor 2nd gen) 	| Gastrointestinal stromal 	| Responsive 	| D 	| NO 	| PMID:16397263 	| complete 	| NaN 	| GIST 	|
+| 12 	| input01 	| KIT wildtype 	| KIT wildtype 	| Sorafenib (Pan-TK inhibitor) 	| Gastrointestinal stromal 	| Responsive 	| C 	| NO 	| ASCO 2011 (abstr 10009) 	| complete 	| NaN 	| GIST 	|
+| 13 	| input01 	| KIT wildtype 	| KIT wildtype 	| Sunitinib (Pan-TK inhibitor) 	| Gastrointestinal stromal 	| Responsive 	| B 	| NO 	| PMID:18955458 	| complete 	| NaN 	| GIST 	|
+| 14 	| input01 	| KIT wildtype 	| KIT wildtype 	| Imatinib (BCR-ABL inhibitor 1st gen&KIT inhibitor) 	| Gastrointestinal stromal 	| Resistant 	| B 	| NO 	| PMID:18955458 	| complete 	| NaN 	| GIST 	|
+| 15 	| input01 	| PDGFRA wildtype 	| PDGFRA wildtype 	| Imatinib (BCR-ABL inhibitor 1st gen&KIT inhibitor) 	| Gastrointestinal stromal 	| Resistant 	| B 	| NO 	| PMID:14645423;PMID:18955458 	| complete 	| NaN 	| GIST 	|
+| 16 	| input01 	| NRAS (G13D) 	| NRAS oncogenic mutation 	| CDK4/6 inhibitor + MEK inhibitors 	| Cutaneous melanoma 	| Responsive 	| C 	| NO 	| PMID:26658964;NCT01781572;NCT02065063;NCT02022982;ASCO 2014 (abstr 9009) 	| complete 	| NaN 	| CM 	|
+| 17 	| input01 	| NRAS (G13D) 	| NRAS (G12C) 	| ERK inhibitors 	| Any cancer type 	| Responsive 	| D 	| YES 	| PMID:23614898 	| only alteration type 	| NaN 	| CANCER 	|
+| 18 	| input01 	| NRAS (G13D) 	| NRAS oncogenic mutation 	| ERK inhibitors 	| Cutaneous melanoma 	| Responsive 	| C 	| NO 	| ASCO 2017 (abstr 2508) 	| complete 	| NaN 	| CM 	|
+| 19 	| input01 	| NRAS (G13D) 	| NRAS oncogenic mutation 	| HSP90 inhibitors 	| Cutaneous melanoma 	| Responsive 	| D 	| NO 	| PMID:23538902 	| complete 	| NaN 	| CM 	|
+| 20 	| input01 	| NRAS (G13D) 	| NRAS oncogenic mutation 	| MEK inhibitor +/- PI3K pathway inhibitors 	| Colorectal adenocarcinoma 	| Responsive 	| D 	| NO 	| PMID:23274911;PMID:22392911 	| complete 	| NaN 	| COREAD 	|
+| 21 	| input01 	| NRAS (G13D) 	| NRAS oncogenic mutation 	| MEK inhibitors 	| Acute myeloid leukemia, Lung adenocarcinoma, Acute lymphoblastic leukemia 	| Responsive 	| D 	| YES 	| PMID:22507781;PMID:23515407;PMID:18701506 	| complete 	| NaN 	| AML, LUAD, ALL 	|
+| 22 	| input01 	| NRAS (G13D) 	| NRAS (Q61) 	| MEK inhibitors 	| Cutaneous melanoma 	| Responsive 	| B 	| NO 	| PMID:23414587,ASCO 2016 (abstr 9500) 	| only alteration type 	| NaN 	| CM 	|
+| 23 	| input01 	| NRAS (G13D) 	| NRAS oncogenic mutation 	| Pan-RAF inhibitors 	| Cutaneous melanoma 	| Responsive 	| C 	| NO 	| ESMO 2015 (abstract 300);AACR 2017 (abstr CT002) 	| complete 	| NaN 	| CM 	|
+| 24 	| input01 	| NRAS (G13D) 	| NRAS oncogenic mutation 	| PI3K pathway inhibitor + MEK inhibitors 	| Myeloma 	| Responsive 	| D 	| YES 	| PMID:22985491 	| complete 	| NaN 	| MYMA 	|
+| 25 	| input01 	| NRAS (G13D) 	| NRAS oncogenic mutation 	| Sorafenib + MEK inhibitor (Pan-TK inhibitor + MEK inhibitor) 	| Hepatic carcinoma 	| Responsive 	| C 	| NO 	| PMID:25294897 	| complete 	| NaN 	| HC 	|
+| 26 	| input01 	| PDGFRA wildtype 	| PDGFRA wildtype 	| Dasatinib (BCR-ABL inhibitor 2nd gen) 	| Gastrointestinal stromal 	| Responsive 	| D 	| NO 	| PMID:16397263 	| complete 	| NaN 	| GIST 	|
+| 27 	| input01 	| PDGFRA wildtype 	| PDGFRA wildtype 	| Sorafenib (Pan-TK inhibitor) 	| Gastrointestinal stromal 	| Responsive 	| C 	| NO 	| ASCO 2011 (abstr 10009) 	| complete 	| NaN 	| GIST 	|
+| 28 	| input01 	| PDGFRA wildtype 	| PDGFRA wildtype 	| Sunitinib (Pan-TK inhibitor) 	| Gastrointestinal stromal 	| Responsive 	| B 	| NO 	| PMID:18955458 	| complete 	| NaN 	| GIST 	|
+| 29 	| input01 	| TP53 wildtype 	| TP53 wildtype 	| HDM2 inhibitors 	| Acute myeloid leukemia 	| Responsive 	| C 	| YES 	| AACR 2017 (abstr CT152) 	| complete 	| NaN 	| AML 	|
+| 30 	| input01 	| NRAS (G13D) 	| NRAS oncogenic mutation 	| Vemurafenib (BRAF inhibitor) 	| Cutaneous melanoma 	| Resistant 	| D 	| NO 	| PMID:20179705 	| complete 	| NaN 	| CM 	|
+| 31 	| input01 	| NRAS (G13D) 	| NRAS (Q61K,T50I,G13D,G60E,G12C,G12V,T58I,.,Q61H,G12R,G12D,Q61L,G13V,Q61R) 	| Panitumumab + Cetuximab 	| Colorectal adenocarcinoma 	| Resistant 	| A 	| NO 	| oncokb: oncokb=https://www.oncokb.org/gene/NRAS 	| complete 	| NaN 	| COREAD 	|
+| 32 	| input01 	| NRAS (G13D) 	| NRAS (Q61K,T50I,G13D,G60E,G12C,G12V,T58I,.,Q61H,G12R,G12D,Q61L,G13V,Q61R) 	| Binimetinib + Binimetinib + Ribociclib 	| Cutaneous melanoma 	| Responsive 	| C 	| NO 	| oncokb: oncokb=https://www.oncokb.org/gene/NRAS 	| complete 	| NaN 	| CM 	|
+| 33 	| input01 	| JAK2 (V617F) 	| JAK2-PCM1 fusion 	| Ruxolitinib 	| Eosinophilic chronic leukemia 	| Responsive 	| C 	| YES 	| oncokb: oncokb=https://www.oncokb.org/gene/JAK2 	| only gene 	| NaN 	| ECL 	|
+| 34 	| input01 	| NRAS (G13D) 	| NRAS (Q61K,T50I,G13D,G60E,G12C,G12V,T58I,.,Q61H,G12R,G12D,Q61L,G13V,Q61R) 	| Selumetinib 	| Thyroid carcinoma 	| Responsive 	| C 	| NO 	| oncokb: oncokb=https://www.oncokb.org/gene/NRAS 	| complete 	| NaN 	| THCA 	|
+| 35 	| input01 	| BRAF wildtype 	| BRAF WILD TYPE 	| MEK Inhibitor RO4987655 	| Cutaneous melanoma 	| Resistant 	| B 	| NO 	| https://civicdb.org/links/molecular_profiles/422 	| complete 	| NaN 	| CM 	|
+| 36 	| input01 	| EGFR wildtype 	| EGFR Wildtype 	| Gefitinib 	| Non-small cell lung 	| Resistant 	| B 	| NO 	| https://civicdb.org/links/molecular_profiles/2050 	| complete 	| NaN 	| NSCLC 	|
+| 37 	| input01 	| JAK2 (V617F) 	| JAK2 Splice Site (c.1641+2T>G) 	| Pembrolizumab 	| Cutaneous melanoma 	| Resistant 	| C 	| NO 	| https://civicdb.org/links/molecular_profiles/1589 	| only alteration type 	| NaN 	| CM 	|
+| 38 	| input01 	| KIT wildtype 	| KIT WILDTYPE 	| Regorafenib 	| Gastrointestinal stromal 	| Response 	| B 	| NO 	| https://civicdb.org/links/molecular_profiles/2520 	| complete 	| NaN 	| GIST 	|
+| 39 	| input01 	| NRAS (G13D) 	| NRAS G13D 	| Tanespimycin 	| Cutaneous melanoma 	| Response 	| C 	| NO 	| https://civicdb.org/links/molecular_profiles/93 	| complete 	| NaN 	| CM 	|
+| 40 	| input01 	| NRAS (G13D) 	| NRAS Mutation 	| MEK Inhibitor RO4987655 	| Cutaneous melanoma 	| Resistant 	| C 	| NO 	| https://civicdb.org/links/molecular_profiles/208 	| complete 	| NaN 	| CM 	|
+| 41 	| input01 	| NRAS (G13D) 	| NRAS Mutation 	| Dabrafenib,Vemurafenib 	| Cutaneous melanoma 	| Resistant 	| B 	| NO 	| https://civicdb.org/links/molecular_profiles/208 	| complete 	| NaN 	| CM 	|
+| 42 	| input01 	| NRAS (G13D) 	| NRAS Mutation 	| Trametinib 	| Cutaneous melanoma 	| Response 	| B 	| NO 	| https://civicdb.org/links/molecular_profiles/208 	| complete 	| NaN 	| CM 	|
+| 43 	| input01 	| NRAS (G13D) 	| NRAS Mutation 	| Trametinib,Omipalisib 	| Cutaneous melanoma 	| Response 	| D 	| NO 	| https://civicdb.org/links/molecular_profiles/208 	| complete 	| NaN 	| CM 	|
+| 44 	| input01 	| NRAS (G13D) 	| NRAS Mutation 	| Binimetinib 	| Cutaneous melanoma 	| Response 	| D 	| NO 	| https://civicdb.org/links/molecular_profiles/208 	| complete 	| NaN 	| CM 	|
+| 45 	| input01 	| NRAS (G13D) 	| NRAS Q61 	| Vemurafenib 	| Cutaneous melanoma 	| Resistant 	| B 	| NO 	| https://civicdb.org/links/molecular_profiles/94 	| only alteration type 	| NaN 	| CM 	|
+| 46 	| input01 	| NRAS (G13D) 	| NRAS Q61K 	| Binimetinib,Everolimus 	| Neuroblastoma 	| Response 	| D 	| NO 	| https://civicdb.org/links/molecular_profiles/423 	| only alteration type 	| NaN 	| NB 	|
+| 47 	| input01 	| NRAS (G13D) 	| NRAS Q61K 	| Trametinib,Selumetinib 	| Non-small cell lung 	| Response 	| D 	| NO 	| https://civicdb.org/links/molecular_profiles/423 	| only alteration type 	| NaN 	| NSCLC 	|
+| 48 	| input01 	| NRAS (G13D) 	| NRAS Q61L 	| Temozolomide 	| Cutaneous melanoma 	| Response 	| C 	| NO 	| https://civicdb.org/links/molecular_profiles/95 	| only alteration type 	| NaN 	| CM 	|
+| 49 	| input01 	| NRAS (G13D) 	| NRAS Q61R 	| Temozolomide 	| Cutaneous melanoma 	| Response 	| C 	| NO 	| https://civicdb.org/links/molecular_profiles/96 	| only alteration type 	| NaN 	| CM 	|
+| 50 	| input01 	| TP53 wildtype 	| TP53 Wildtype 	| Adjuvant Chemotherapy 	| Non-small cell lung 	| Response 	| B 	| NO 	| https://civicdb.org/links/molecular_profiles/365 	| complete 	| NaN 	| NSCLC 	|
 
 ## Deletando o Job do CGI
 
