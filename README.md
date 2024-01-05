@@ -95,7 +95,7 @@ Sobre a amostra **WP017**.
 
 **Cancer Genome Interpreter (CGI) - API**
 
-Utilizando o resultado da amostras WP048, vamos utilizar a análise do CGI através da API Rest que eles disponibilizam. Para mais informações sobre a API Rest do CGI acesse: https://www.cancergenomeinterpreter.org/rest_api
+Utilizando o resultado da amostra WP048, vamos utilizar a análise do CGI através da API Rest que eles disponibilizam. Para mais informações sobre a API Rest do CGI acesse: https://www.cancergenomeinterpreter.org/rest_api
 
 Requisitos para acessar a API:
 
