@@ -32,7 +32,7 @@ Versão Reduzida no Google Colab:
 2. Abnormal mast cell morphology: https://hpo.jax.org/app/browse/term/HP:0100494
 
 ### Clonal Hematopoiesis drivers
-1. Clonal Hematopoiesis drivers (65 genes): https://www.intogen.org/ch
+1. Clonal Hematopoiesis drivers (64 genes): https://www.intogen.org/ch
 
 
 # vep.sh - script
